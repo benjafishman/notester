@@ -7,6 +7,7 @@ Bein Hazmanim 2021
 from pynput.keyboard import Controller
 from pynput import keyboard
 import threading
+import time
 
 # keeps track of the type of input a user is doing, should probably change name of the var for more clarity
 glob_level = 0
@@ -58,7 +59,13 @@ def on_press(key):
 
 def on_release(key):
     if any([key in COMBO for COMBO in COMBINATIONS]):
-        current.remove(key)
+        print(f'the key is: {key}')
+        print(f'current is {current}')
+        try:
+            current.remove(key)
+        except:
+            #TODO: do something more productive with this error ,uhh, like fix it.
+            print("ERROR ERROR ERROR")
 
 
 def get_user_input():
