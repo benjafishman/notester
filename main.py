@@ -8,20 +8,22 @@ glob_level = 0
 
 # the keyboard controller specifically to simulate pressing buttons
 kb = Controller()
-from pynput.keyboard import Controller
+
 
 def function_1():
     global glob_level
-    print("function 1")
     glob_level = 0
     end_execute()
 
 
 def function_2():
-    print("function 2")
     global glob_level
     glob_level = 1
     end_execute()
+
+
+def print_note():
+    my_note.print()
 
 
 def end_execute():
@@ -53,7 +55,8 @@ def main():
     thread2.start()
     with keyboard.GlobalHotKeys({
         '<shift>+R': function_1,
-        '<shift>+T': function_2}) as h:
+        '<shift>+T': function_2,
+        '<shift>+Z': print_note}) as h:
         h.join()
 
 
