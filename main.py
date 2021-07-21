@@ -1,5 +1,6 @@
 from pynput import keyboard
 import threading
+#import note
 import noteController
 from pynput.keyboard import Controller
 
