@@ -51,9 +51,6 @@ class Note:
     def add_section_with_content(self, key, content):
         self.json_note[key] = content
 
-    def add_content(self, position, content):
-        self.json_note[position] = content
-
     def traverse_note(self):
         for k, v in self.json_note.iteritems():
             print(k, v)
@@ -74,12 +71,14 @@ class Note:
         """
         dic = self.json_note
         for key in keys[:-1]:
-            print(f'start dic: {dic}')
-            print(f'key is {key}')
+            #print(f'start dic: {dic}')
+            #print(f'key is {key}')
             dic = dic.setdefault(key, {})
-            print(f'end dic: {dic}')
+            #print(f'end dic: {dic}')
+        #print("here!!!!")
+        #print(dic)
+        #print(keys[-1])
         dic[keys[-1]] = val
-
 
     def print(self):
         print(self.json_note)

@@ -1,16 +1,17 @@
 from pynput import keyboard
 import threading
-import note
+#import note
+import noteController
 from pynput.keyboard import Controller
 
-#global variable
+# global variable
 glob_level = 0
 
 # the keyboard controller specifically to simulate pressing buttons
 kb = Controller()
 
 
-def function_1():
+def add_header():
     global glob_level
     glob_level = 0
     end_execute()
@@ -23,7 +24,7 @@ def function_2():
 
 
 def print_note():
-    my_note.print()
+    nc.print_note()
 
 
 def end_execute():
@@ -32,34 +33,40 @@ def end_execute():
     kb.press(keyboard.Key.enter)
     kb.release(keyboard.Key.enter)
 
-def start():
+
+def load():
+    t = {'load': None,
+         'new_note': {'title': ''}}
     c = input("Enter title of note: ")
     # TODO: check for any notes with the title,
     # but for now just create new note
-    return note.Note(c)
+    t['new_note']['title'] = c
+    return noteController.NoteController(t)
 
 
 def get_user_input(header=None):
     d = {
-        0: "section header(*):",
+        0: "Add section header:",
         1: f'[{header}]| input content:',
     }
 
     while True:
-        c = input(f"{d[glob_level]}")
+        c = input(f"[Note location: {nc.current_note_address()}] {d[glob_level]}")
         print(f'input is: {c}')
+        actions = {0: 'add_header', 1: 'add_content'}
+        content = {'action': actions[glob_level], 'value': c}
+        nc.import_content(content)
 
 
 def main():
     thread2 = threading.Thread(target=get_user_input, args=())
     thread2.start()
     with keyboard.GlobalHotKeys({
-        '<shift>+R': function_1,
+        '<shift>+A': add_header,
         '<shift>+T': function_2,
         '<shift>+Z': print_note}) as h:
         h.join()
 
 
-
-my_note = start()
+nc = load()
 main()
