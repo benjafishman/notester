@@ -1,6 +1,5 @@
 from pynput import keyboard
 import threading
-#import note
 import noteController
 from pynput.keyboard import Controller
 
@@ -17,9 +16,10 @@ def add_header():
     end_execute()
 
 
-def function_2():
+def add_content():
     global glob_level
     glob_level = 1
+    print("here")
     end_execute()
 
 
@@ -28,10 +28,12 @@ def print_note():
 
 
 def end_execute():
+    print("in end_execute")
     # simulate pressing enter so the user input type will change
     # TODO: decide what should be done with anything user has input so far and now they are changing input type
     kb.press(keyboard.Key.enter)
     kb.release(keyboard.Key.enter)
+    print("end end_execute")
 
 
 def load():
@@ -63,7 +65,7 @@ def main():
     thread2.start()
     with keyboard.GlobalHotKeys({
         '<shift>+A': add_header,
-        '<shift>+T': function_2,
+        '<shift>+S': add_content,
         '<shift>+Z': print_note}) as h:
         h.join()
 

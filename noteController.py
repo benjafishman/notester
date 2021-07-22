@@ -46,10 +46,9 @@ class NoteController:
     def current_note_address(self):
         """ returns a string representation of the current_address list
         with each element separated by a > """
-        addr = ''
-        for x in self.current_address:
-            addr += f'{x} > '
-        return addr
+
+        t = '>'
+        return t.join(self.current_address)
 
     def move_current_note_address_down(self):
         pass
