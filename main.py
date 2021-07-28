@@ -1,39 +1,8 @@
-from pynput import keyboard
-import threading
 import noteController
-from pynput.keyboard import Controller
-
-# global variable
-glob_level = 0
-
-# the keyboard controller specifically to simulate pressing buttons
-kb = Controller()
-
-
-def add_header():
-    global glob_level
-    glob_level = 0
-    end_execute()
-
-
-def add_content():
-    global glob_level
-    glob_level = 1
-    print("here")
-    end_execute()
 
 
 def print_note():
     nc.print_note()
-
-
-def end_execute():
-    print("in end_execute")
-    # simulate pressing enter so the user input type will change
-    # TODO: decide what should be done with anything user has input so far and now they are changing input type
-    kb.press(keyboard.Key.enter)
-    kb.release(keyboard.Key.enter)
-    print("end end_execute")
 
 
 def load():
@@ -46,29 +15,39 @@ def load():
     return noteController.NoteController(t)
 
 
-def get_user_input(header=None):
-    d = {
+def get_user_input():
+    input_type = 0
+    input_type_messages = {
         0: "Add section header:",
-        1: f'[{header}]| input content:',
+        1: f'Input content:',
     }
 
     while True:
-        c = input(f"[Note location: {nc.current_note_address()}] {d[glob_level]}")
+        c = input(f"[Note location: {nc.current_note_address()}] {input_type_messages[input_type]}")
         print(f'input is: {c}')
-        actions = {0: 'add_header', 1: 'add_content'}
-        content = {'action': actions[glob_level], 'value': c}
-        nc.import_content(content)
+        # check if user is changing input type
+        header_cmd = '**header'
+        content_cmd = '**content'
+        print_cmd = '**print'
+        if header_cmd in c:
+            input_type = 0
+        elif content_cmd in c:
+            input_type = 1
+        elif print_cmd in c:
+            print_note()
+        # TODO not accounting for if they both in user input because that's ridiculous!
+        else:
+            actions = {0: 'add_header', 1: 'add_content'}
+            content = {'action': actions[input_type], 'value': c}
+            nc.import_content(content)
 
 
 def main():
-    thread2 = threading.Thread(target=get_user_input, args=())
-    thread2.start()
-    with keyboard.GlobalHotKeys({
-        '<shift>+A': add_header,
-        '<shift>+S': add_content,
-        '<shift>+Z': print_note}) as h:
-        h.join()
+    get_user_input()
 
 
+# instantiate NoteController object
 nc = load()
+
+# run main
 main()
