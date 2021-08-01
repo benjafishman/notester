@@ -47,6 +47,9 @@ class Note:
             'title': title,
             'date_created': datetime.date.today()
         }
+        if content and type(content) is dict:
+            self.json_note = {**self.json_note, **content}  # merge dictionaries
+            # TODO: error if user tries to merge a non-dictionary type
 
     def add_section_with_content(self, key, content):
         self.json_note[key] = content
@@ -55,10 +58,13 @@ class Note:
         for k, v in self.json_note.iteritems():
             print(k, v)
 
-    def get_sections(self):
+    def get_sections(self, parent_section=None):
         """Returns list of sections relative to user's depth in the note"""
+        d = self.json_note
+        if parent_section:
+            d = self.json_note[parent_section]
         keys = []
-        for k, v in self.json_note.items():
+        for k, v in d.items():
             print(f'key is: {k}, v is: {v}')
             keys.append(k)
         return keys
@@ -71,13 +77,7 @@ class Note:
         """
         dic = self.json_note
         for key in keys[:-1]:
-            #print(f'start dic: {dic}')
-            #print(f'key is {key}')
             dic = dic.setdefault(key, {})
-            #print(f'end dic: {dic}')
-        #print("here!!!!")
-        #print(dic)
-        #print(keys[-1])
         dic[keys[-1]] = val
 
     def print(self):

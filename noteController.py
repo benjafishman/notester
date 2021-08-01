@@ -50,10 +50,11 @@ class NoteController:
         t = '>'
         return t.join(self.current_address)
 
-    def move_current_note_address_down(self):
+    def move_address_down_level(self):
+        #if len(self.current_address) > 0:
         pass
 
-    def move_current_note_address_up(self):
+    def move_address_up_level(self):
         if len(self.current_address) > 0:
             last = self.current_address[-1]
             self.current_address.remove(last)
@@ -61,6 +62,12 @@ class NoteController:
         else:
             #TODO: return message that there is no where higher to go
             return self.current_address
+
+    def get_sections_at_current_level(self):
+        """I guess current level is the penultimate address item
+        so we'll just cherry pick the penultimate element in the address list and return all first order keys within
+        (not sub-keys)"""
+        parent_section = self.current_address[:-2]
 
     def move_current_note_address_in(self):
         pass
