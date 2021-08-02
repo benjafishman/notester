@@ -6,7 +6,9 @@ def print_note():
 
 
 def show_sections():
-    pass
+    sections = nc.get_sections_at_current_level()
+    for s in sections:
+        print(s + '\n')
 
 
 def load():
@@ -32,16 +34,16 @@ def get_user_input():
 
     input_types = {
         'add_header': {'description': 'change user input to section header',
-                       'command': '**header',
+                       'command': 'add_header',
                        'message': 'Add section header'},
         'print_note': {'description': 'print current note in dictionary form',
-                       'command': '**print', 'response_function': print_note},
+                       'command': 'print_note', 'response_function': print_note},
         'add_content': {'description': 'change user input to content',
-                        'command': '**content', 'message': 'Input content'},
-        'show_sections_at_current_level': {'description': "display all first order sections given a specified parent "
-                                                          "'key'",
-                                           'command': '**sections',
-                                           'response_function': show_sections},
+                        'command': 'add_content', 'message': 'Input content'},
+        'show_sections': {'description': "display all first order sections given a specified parent "
+                                         "'key'",
+                          'command': 'show_sections',
+                          'response_function': show_sections},
     }
     while True:
         c = input(f"[Note location: {nc.current_note_address()}] {input_types[input_type]['message']}: ")

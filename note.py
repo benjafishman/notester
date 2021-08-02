@@ -60,6 +60,7 @@ class Note:
 
     def get_sections(self, parent_section=None):
         """Returns list of sections relative to user's depth in the note"""
+        # TODO: convert this to a list comprehension?
         d = self.json_note
         if parent_section:
             d = self.json_note[parent_section]
