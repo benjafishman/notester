@@ -55,20 +55,25 @@ class Note:
         self.json_note[key] = content
 
     def traverse_note(self):
-        for k, v in self.json_note.iteritems():
+        for k, v in self.json_note.items():
             print(k, v)
 
-    def get_sections(self, parent_section=None):
+    def get_sections(self, keys, dic=None):
         """Returns list of sections relative to user's depth in the note"""
         # TODO: convert this to a list comprehension?
-        d = self.json_note
-        if parent_section:
-            d = self.json_note[parent_section]
-        keys = []
-        for k, v in d.items():
-            print(f'key is: {k}, v is: {v}')
-            keys.append(k)
-        return keys
+
+        result = []
+        if dic is None:
+            dic = self.json_note
+        if len(keys) == 0:
+            """ we have recursively reached the last element in the address list 
+             and now we return all keys in this dictionary """
+            x = list(dic.keys())
+            return x
+        for k in keys:
+            if k in dic.keys():
+                result = self.get_sections(keys[1:], dic[k])
+        return result
 
     def add_or_edit_by_address(self, keys, val):
         """

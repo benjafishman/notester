@@ -6,7 +6,7 @@ def print_note():
 
 
 def show_sections():
-    sections = nc.get_sections_at_current_level()
+    sections = nc.get_keys_in_parent_section()
     for s in sections:
         print(s + '\n')
 
@@ -46,27 +46,27 @@ def get_user_input():
                           'response_function': show_sections},
     }
     while True:
-        c = input(f"[Note location: {nc.current_note_address()}] {input_types[input_type]['message']}: ")
-        print(f'input is: {c}')
+        user_input = input(f"[Note location: {nc.current_note_address()}] {input_types[input_type]['message']}: ")
+        print(f'input is: {user_input}')
         print(f'current input type is: {input_type}')
         # input type change
-        if c in input_types and input_types[c].get('response_function') is not None:
+        if user_input in input_types and input_types[user_input].get('response_function') is not None:
             # certain commands require an immediate response to the
             # user but do not necessitate a change in input type
-            print(f"do {c}")
+            print(f"do {user_input}")
             # call function
-            input_types[c]['response_function']()  # why does PC not like this statement?
+            input_types[user_input]['response_function']()  # why does PC not like this statement?
 
-        elif c in input_types and c is not input_type:
+        elif user_input in input_types and user_input is not input_type:
             # the user has changed input types that does not require immediate response.
             # i.e. a input type that will in the future effect the actual Note abject
-            print(f"input type was changed to: {c} from {input_type}")
+            print(f"input type was changed to: {user_input} from {input_type}")
         # input type was not changed
         else:
-            print("Not in Input_types")
-            """actions = {0: 'add_header', 1: 'add_content'}
-            content = {'action': input_type, 'value': c}
-            nc.import_content(content)"""
+            print(f"Input_type: {input_type}")
+            """actions = {0: 'add_header', 1: 'add_content'}"""
+            content = {'action': input_type, 'value': user_input}
+            nc.import_content(content)
 
 
 def main():

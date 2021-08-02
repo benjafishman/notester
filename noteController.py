@@ -64,16 +64,18 @@ class NoteController:
             # TODO: return message that there is no where higher to go
             return self.current_address
 
-    def get_sections_at_current_level(self):
+    def get_keys_in_parent_section(self):
         """I guess current level is the penultimate address item
         so we'll just cherry pick the penultimate element in the address list and return all first order keys within
         (not sub-keys)"""
-        parent_section = self.current_address[:-1]  # if current address is only one element
-        if len(self.current_address) > 1:  # if current address has more than one element
-            parent_section = self.current_address[:-2]
 
+        #parent_section = self.current_address[-1]  # if current address is only one element
+        #if len(self.current_address) > 1:  # if current address has more than one element
+        #    parent_section = self.current_address[-2]
+        address = self.current_address[:-1]
         # get all first order keys within given parent section
-        return self.note.get_sections(parent_section)
+        print(f"address to section is: {address}")
+        return self.note.get_sections(address)
 
     def move_current_note_address_in(self):
         pass
