@@ -11,7 +11,7 @@ class NoteController:
     def __init__(self, t):
         """
         t - should be a json dictionary with a key of 'load'
-        to load a previously created note or 'new' to create a new note
+        to load a previously created note or 'new_note' to create a new note
         and then there should be a key 'title' for the new note
         of"""
 
@@ -21,6 +21,7 @@ class NoteController:
         elif t['new_note']:
             # new note is created
             self.note = note.Note(t['new_note']['title'])
+            self.current_address.append('content')
         else:
             print("Error in Note Controller initialization")
 
@@ -33,14 +34,19 @@ class NoteController:
     def import_content(self, t):
         """
         t = {
-        'action':'header',
-        'value': 'stub'
+        'action':'add_header',
+        'value': 'h1'
         }
         """
+        print(t)
         if t['action'] == 'add_header':
             val = {}
-            self.current_address.append(t['value'])  # a list's order is persistent ;)
-            self.note.add_or_edit_by_address(self.current_address, val)
+            temp_address = []
+            # if len(self.current_address < 1):
+            # self.current_address.append(t['value'])  # a list's order is persistent ;)
+
+            print(self.current_address)
+            self.note.add_or_edit_by_address(t['value'], self.current_address)
 
         pass
 

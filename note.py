@@ -47,6 +47,9 @@ class Note:
             'title': title,
             'date_created': datetime.date.today()
         }
+        self.json_note['content'] = {}
+
+        # TODO: figure out how to propely combine if they have pre-loaded content
         if content and type(content) is dict:
             self.json_note = {**self.json_note, **content}  # merge dictionaries
             # TODO: error if user tries to merge a non-dictionary type
@@ -75,16 +78,19 @@ class Note:
                 result = self.get_sections(keys[1:], dic[k])
         return result
 
-    def add_or_edit_by_address(self, keys, val):
+    def add_or_edit_by_address(self, val, keys=None):
         """
         Nested_set takes a dictionary with a list of keys whose order parallels how the dictionary is nested and
         then assigns the value to that location. This will can add a new dictionary or update an existing entry in a
         dictionary
         """
         dic = self.json_note
+        print(f'val: {val}, keys: {keys}')
         for key in keys[:-1]:
             dic = dic.setdefault(key, {})
-        dic[keys[-1]] = val
+        dic[keys[-1]] = {**dic[keys[-1]],
+                         **{val: None}}  # this assumes the value at dic[keys[-1]] is a dictionary object and then
+        # merges with the new key with a value of None
 
     def print(self):
         print(self.json_note)

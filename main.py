@@ -33,7 +33,9 @@ def get_user_input():
     }
 
     input_types = {
-        'add_header': {'description': 'change user input to section header',
+        'add_header': {'description': 'change user input to section header if this is not the current input type. '
+                                      'If it is the current input type then this will add a new section header to the '
+                                      'lowest order parent key in the note`s address',
                        'command': 'add_header',
                        'message': 'Add section header'},
         'print_note': {'description': 'print current note in dictionary form',
@@ -47,8 +49,8 @@ def get_user_input():
     }
     while True:
         user_input = input(f"[Note location: {nc.current_note_address()}] {input_types[input_type]['message']}: ")
-        print(f'input is: {user_input}')
-        print(f'current input type is: {input_type}')
+        # print(f'input is: {user_input}')
+        # print(f'current input type is: {input_type}')
         # input type change
         if user_input in input_types and input_types[user_input].get('response_function') is not None:
             # certain commands require an immediate response to the
